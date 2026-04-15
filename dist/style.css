@@ -1,0 +1,132 @@
+.content-block--hover {
+  position: relative;
+  box-shadow: 0 0 0 2px red;
+}
+
+.content-block--hover.hidden-block-navigator {
+  box-shadow: none;
+}
+
+.block-navigator {
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 999;
+  background-color: #fff;
+  color: #000;
+  font-size: 14px;
+}
+
+.content-block--hover.hidden-block-navigator .block-navigator {
+  display: none;
+}
+
+.block-navigator div {
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.block-navigator div:hover {
+  background-color: #e1e1e1;
+}
+
+/* Editable Field Styles */
+.editable-field {
+  position: relative;
+  outline: 2px dashed transparent;
+  transition: all 0.2s ease;
+  min-height: 1em;
+  overflow: visible;
+}
+
+.editable-field--hover {
+  outline: 2px dashed #3b82f6;
+  background-color: rgba(59, 130, 246, 0.05);
+  cursor: text;
+}
+
+.editable-field--editing {
+  outline: 2px solid #3b82f6;
+  background-color: rgba(59, 130, 246, 0.1);
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+}
+
+/* Toolbar Button */
+.editable-toolbar-button {
+  position: absolute;
+  top: -32px;
+  left: 0;
+  padding: 0.25rem 0.75rem;
+  background: #3b82f6;
+  color: white;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  z-index: 1000;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.editable-toolbar-button:hover {
+  background: #2563eb;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* .mySlides {
+  display: none
+} */
+
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+#popup-current .prev, #popup-current .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+#popup-current .next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+#popup-current .prev:hover, #popup-current .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+#popup-current .fade {
+  animation-name: fade;
+  animation-duration: 1s;
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+#popup-current > div {
+  width: 700px;
+}
+
+@media screen and (max-width: 639px) {
+  #popup-current > div {
+    width: calc(100% - 20px);
+  }
+  
+}
