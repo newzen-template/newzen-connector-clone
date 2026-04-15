@@ -1,6 +1,6 @@
 {
   "name": "newzen-connector",
-  "version": "1.0.81",
+  "version": "1.0.82-beta.0",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
