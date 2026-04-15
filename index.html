@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NewzenConnector Test Playground</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            padding: 16px;
+        }
+
+        h1 {
+            margin: 0 0 12px;
+            font-size: 22px;
+        }
+
+        .wrap {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            margin-bottom: 16px;
+        }
+
+        button {
+            padding: 10px 12px;
+            cursor: pointer;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background: white;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background: #eff6ff;
+            border-color: #93c5fd;
+        }
+
+        #preview {
+            border: 1px solid #dbeafe;
+            border-radius: 10px;
+            padding: 12px;
+            background: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        #log {
+            background: #0b1020;
+            color: #e2e8f0;
+            padding: 12px;
+            border-radius: 10px;
+            min-height: 180px;
+            white-space: pre-wrap;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <h1>NewzenConnector - Inline Editing Test</h1>
+
+    <div class="wrap">
+        <button id="btnFormatContentBlock">Test formatContentBlock()</button>
+        <button id="btnParseDataBinding">Test parseDataBinding()</button>
+        <button id="btnIsEditMode">Test isEditMode()</button>
+        <button id="btnCalPriceService">Test calPriceService()</button>
+        <button id="btnEmitInlineEdit">Test emitInlineEdit()</button>
+        <button id="btnSetupEditableElement">Test setupEditableElement()</button>
+        <button id="btnSetupInlineEditing">Test setupInlineEditing()</button>
+        <button id="btnActionHandler">Test actionHandler()</button>
+        <button id="btnClearLog">Clear log</button>
+    </div>
+
+    <div id="preview" data-cms-bind="#content_blocks.0">
+        <h2 data-editable-field="title">Editable title text - click button "setupEditableElement" rồi sửa mình nhé.</h2>
+        <p data-editable-field="description">Editable description text</p>
+    </div>
+
+    <div id="log"></div>
+
+    <script type="module">
+        import NewzenConnector from './dist/index.mjs';
+
+        const logEl = document.getElementById('log');
+
+        const writeLog = (label, data) => {
+            const time = new Date().toISOString();
+            const body = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
+            logEl.textContent = `[${time}] ${label}\n${body}\n\n` + logEl.textContent;
+            console.log(label, data);
+        };
+
+        const connector = new NewzenConnector({
+            initialData: {
+                content_blocks: [
+                    {
+                        _block_name: 'hero-banner',
+                        title: 'Hello world',
+                        description: 'Description sample'
+                    }
+                ]
+            },
+            callback: (formatted) => {
+                writeLog('callback(formattedPage)', formatted);
+            }
+        });
+
+        window.addEventListener('message', (event) => {
+            writeLog('window.message', event.data);
+        });
+
+        document.getElementById('btnFormatContentBlock').addEventListener('click', () => {
+            const sample = {
+                content_blocks: [
+                    { _block_name: 'hero-banner' },
+                    { _block_name: 'product_list-v2' }
+                ]
+            };
+            const result = NewzenConnector.formatContentBlock(sample);
+            writeLog('formatContentBlock()', result);
+        });
+
+        document.getElementById('btnParseDataBinding').addEventListener('click', () => {
+            const result = NewzenConnector.parseDataBinding('#content_blocks.3.title');
+            writeLog('parseDataBinding()', result);
+        });
+
+        document.getElementById('btnIsEditMode').addEventListener('click', () => {
+            const result = NewzenConnector.isEditMode();
+            writeLog('isEditMode()', { result, search: window.location.search });
+        });
+
+        document.getElementById('btnCalPriceService').addEventListener('click', () => {
+            const result = NewzenConnector.calPriceService('$10.00', 10, 'Both');
+            writeLog('calPriceService()', result);
+        });
+
+        document.getElementById('btnEmitInlineEdit').addEventListener('click', () => {
+            NewzenConnector.emitInlineEdit('#content_blocks.0', 'New title from emitInlineEdit', 'title');
+            writeLog('emitInlineEdit()', 'Sent postMessage using TEMPLATE_EDIT_INLINE_BLOCK');
+        });
+
+        document.getElementById('btnSetupEditableElement').addEventListener('click', () => {
+            const titleEl = document.querySelector('[data-editable-field="title"]');
+            NewzenConnector.setupEditableElement(titleEl, 'title');
+            writeLog('setupEditableElement()', 'Title element is now contenteditable. Edit and blur to emit event.');
+        });
+
+        document.getElementById('btnSetupInlineEditing').addEventListener('click', () => {
+            NewzenConnector.setupInlineEditing();
+            writeLog('setupInlineEditing()', 'Initialized all [data-editable-field] elements.');
+        });
+
+        document.getElementById('btnActionHandler').addEventListener('click', () => {
+            connector.actionHandler();
+            writeLog('actionHandler()', 'Action handler initialized.');
+        });
+
+        document.getElementById('btnClearLog').addEventListener('click', () => {
+            logEl.textContent = '';
+        });
+
+        writeLog('Ready', 'Open with ?edit=1 to test isEditMode/setupInlineEditing conditions.');
+    </script>
+</body>
+</html>
