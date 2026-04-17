@@ -154,16 +154,18 @@ export default class NewzenConnector {
         };
       }
 
+      const dataToSend = {
+        blockIndex: parsed.blockIndex,
+        fieldPath: fieldPath || parsed.fieldPath,
+        value: newValue,
+        dataCmsBind: dataCmsBind,
+        elementRect: elementRect,
+      };
+      console.log('dataToSend', dataToSend);
       window.parent.postMessage(
         {
           type: messageType,
-          data: {
-            blockIndex: parsed.blockIndex,
-            fieldPath: fieldPath || parsed.fieldPath,
-            value: newValue,
-            dataCmsBind: dataCmsBind,
-            elementRect: elementRect, // Include element coordinates
-          },
+          data: dataToSend
         },
         '*'
       );

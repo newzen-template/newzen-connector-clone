@@ -1,5 +1,5 @@
 {
-  "name": "newzen-connector",
+  "name": "newzen-connector-clone",
   "version": "1.0.82-beta.1",
   "description": "",
   "main": "dist/index.js",
