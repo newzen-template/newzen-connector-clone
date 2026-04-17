@@ -133,17 +133,18 @@
           y: rect.y
         };
       }
+      const dataToSend = {
+        blockIndex: parsed.blockIndex,
+        fieldPath: fieldPath || parsed.fieldPath,
+        value: newValue,
+        dataCmsBind,
+        elementRect
+      };
+      console.log("dataToSend", dataToSend);
       window.parent.postMessage(
         {
           type: messageType,
-          data: {
-            blockIndex: parsed.blockIndex,
-            fieldPath: fieldPath || parsed.fieldPath,
-            value: newValue,
-            dataCmsBind,
-            elementRect
-            // Include element coordinates
-          }
+          data: dataToSend
         },
         "*"
       );
