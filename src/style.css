@@ -1,4 +1,4 @@
-/* .content-block--hover {
+.content-block--hover {
   position: relative;
   box-shadow: 0 0 0 2px red;
 }
@@ -29,7 +29,7 @@
 
 .block-navigator div:hover {
   background-color: #e1e1e1;
-} */
+}
 
 /* Editable Field Styles */
 .editable-field {
