@@ -1,6 +1,6 @@
 {
   "name": "newzen-connector-clone",
-  "version": "1.0.82-beta.1",
+  "version": "1.0.82-beta.2",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
